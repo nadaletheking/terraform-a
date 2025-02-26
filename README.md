@@ -13,7 +13,7 @@ Modify Terraform to store the state file in an S3 bucket instead of locally. Ens
 Update the Terraform configuration to get the latest Amazon Linux AMI automatically instead of using a hardcoded AMI ID.
 
 - Use Environment Variables in Terraform
-Pass the AWS region and other configuration values as environment variables and use them in Terraform instead of hardcoding values. Apply Terraform with environment variables.
+Pass the AWS region and other configuration values as dynamic variables and use them in Terraform instead of hardcoding values. Apply Terraform with variables from CLI.
 
 **This step takes you one step forward in improving the way we work on our deployment and CI processes.**
 
