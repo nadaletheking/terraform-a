@@ -46,8 +46,12 @@ resource "aws_instance" "app_server" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo 'This is a test' >> /home/ubuntu/testfile.txt"
+      "sudo apt-get update -y",
+      "sudo apt-get install -y nginx",
+      "sudo systemctl enable nginx",
+      "sudo systemctl start nginx"
     ]
+
 
     connection {
       type        = "ssh"
