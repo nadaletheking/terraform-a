@@ -34,6 +34,10 @@ resource "aws_key_pair" "generated_key" {
   public_key = tls_private_key.tls_pk.public_key_openssh
 }
 
+resource "aws_eip" "elastic_ip" {
+  instance = aws_instance.app_server.id
+}
+
 resource "aws_instance" "app_server" {
   ami             = "ami-00e448b3f42f8156f"
   instance_type   = "t3.micro"
