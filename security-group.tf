@@ -8,13 +8,6 @@
 resource "aws_security_group" "ec2_security_group" {
   name        = "ec2-security-group"
   description = "Allow SSH, HTTP, and HTTPS access only"
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ssh_ipv4" {

@@ -43,6 +43,20 @@ resource "aws_instance" "app_server" {
   tags = {
     Name = var.instance_name
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'This is a test' >> /home/ubuntu/testfile.txt"
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key =  tls_private_key.tls_pk.private_key_pem 
+      host        = aws_instance.app_server.public_ip  
+    }
+  }
+
 }
 
 resource "local_sensitive_file" "pem_file" {
