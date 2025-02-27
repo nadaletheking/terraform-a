@@ -68,6 +68,15 @@ variable "s3_state" {
   }
 }
 
+variable "default_tags" {
+  description = "Map of default tags to apply to all resources"
+  type        = map(string)
+  default = {
+    Terraform   = "terraform-test"
+    Environment = "Test"
+    Service     = "Example"
+  }
+}
 
 
 
