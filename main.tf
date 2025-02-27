@@ -1,4 +1,10 @@
 terraform {
+  backend "s3" {
+    bucket = ""
+    key    = ""
+    region = ""
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -14,7 +20,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "il-central-1"
+  region = var.aws_region
 }
 
 provider "tls" {
@@ -38,8 +44,30 @@ resource "aws_eip" "elastic_ip" {
   instance = aws_instance.app_server.id
 }
 
+
+data "aws_ami" "latest_ubuntu" {
+  most_recent = true
+  owners      = [var.ami_filters.owner]
+
+  filter {
+    name   = "name"
+    values = [var.ami_filters.name]
+  }
+
+  filter {
+    name   = "architecture"
+    values = [var.ami_filters.architecture]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = [var.ami_filters.virtualization]
+  }
+}
+
+
 resource "aws_instance" "app_server" {
-  ami             = "ami-00e448b3f42f8156f"
+  ami             = data.aws_ami.latest_ubuntu.id
   instance_type   = "t3.micro"
   key_name        = aws_key_pair.generated_key.key_name
   security_groups = [aws_security_group.ec2_security_group.name]
@@ -68,8 +96,8 @@ resource "aws_instance" "app_server" {
 }
 
 resource "local_sensitive_file" "pem_file" {
-  filename             = "${path.module}/output-files/pk.pem"
-  file_permission      = "600"
-  directory_permission = "700"
+  filename             = "${path.module}/${var.pk_local_sensetive_file.filename}"
+  file_permission      = var.pk_local_sensetive_file.file_permission
+  directory_permission = var.pk_local_sensetive_file.directory_permission
   content              = tls_private_key.tls_pk.private_key_pem
 }

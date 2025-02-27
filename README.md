@@ -1,3 +1,10 @@
+### How To Run It
+Because I used a configuration for the backend varibles,
+we have to do init and pass it the confif file as followed:
+
+``` 
+terraform init -backend-config="./state.config"
+```
 ### Task Description
 The goal of this task is to make the Terraform configuration more dynamic and adaptable. Instead of hardcoding values, the user will define the AWS region at the time of applying Terraform. Terraform will then automatically retrieve the latest Amazon Linux AMI and build the required infrastructure, ensuring the deployment is always up to date with the most recent instance image. Additionally, the Terraform state will be stored in an S3 bucket instead of locally, allowing for better state management and collaboration.
 At the end of this task, the user will be able to run:
